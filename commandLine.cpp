@@ -8,18 +8,34 @@ using namespace std;
 
 int main(){
 
-   //getting the user's command line input
-   string userInput;
-   char buffer [100];
-
+   /* getting the user's command line input from stdin & storing it into buffer */
+   char buffer [50];
    printf("Input command line: ");
-   fgets(buffer, 100, stdin);
-   buffer[strcspn(buffer, "\n")] = 0;
+   fgets(buffer, 50, stdin);
+   buffer[strcspn(buffer, "\n")] = 0; //removes the \n character from buffer 
 
-   printf("User Input: %s", buffer);
-   printf("hello\n");
+   printf("Buffer: %s\n", buffer);
+   printf("\n");
+   //system(buffer);
 
-   system(buffer);
-   
+   /* --CASE 1: execute a single cmd line w/ upto one arg-- */
+
+   char *token;
+   token = strtok(buffer, " "); //getting every individual word from user input split by delimeter " "
+   int idx= 0;
+   char *args[3];  //char *args [] = {"ls", "-l", NULL};
+
+   while(token != NULL){
+       printf("Token %d:%s\n", idx, token);
+       args[idx] = token;  //populating args with individual words from user input split by " "
+       idx++;
+       token = strtok(NULL, " ");   
+   }
+   args[2] = NULL;
+   printf("\n");
+ 
+   //if user input = "ls -l" then buffer = "ls -l" then args = ["ls", "-l", NULL] 
+   execvp(args[0], args);  
+
    return 0;
 } 
