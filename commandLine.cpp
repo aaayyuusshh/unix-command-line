@@ -63,6 +63,7 @@ int main(){
     else if(cases == 2){
         printf("CASE 2\n");
 
+        system(buffer);
     }
 
     /* -- CASE 3: Special Pipes -- */
@@ -113,13 +114,12 @@ int main(){
         }
 
          //ls $ wc wc 
-        //process right end of the pipe with stdin redireciton (inputs from read end of pipe)
+        //process right of $ with stdin redireciton (inputs from read end of pipe)
         for(int i= dollar+1; i< idx; i++){ 
             char *args[] = {inputArr[i], NULL};
             pid_t pid= fork();
 
             if(pid == 0){ 
-                printf("XO: %s",inputArr[i]);
                 close(fd[1]);
                 dup2(fd[0], 0);
                 close(fd[0]);
