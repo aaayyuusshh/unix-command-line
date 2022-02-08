@@ -6,6 +6,23 @@
 
 using namespace std;
 
+int parser(char aString[]){
+
+    char *pipe = strstr(aString, "|");
+    char *io1= strstr(aString, ">");
+    char *io2= strstr(aString, "<");
+    char *dollar= strstr(aString, "$");
+
+    if(pipe || io1 || io2){ //case 2
+        return 2;
+    }
+    else if(dollar){ //case 3
+        return 3;
+    }
+    
+    return 1; //case 1
+}
+
 int main(){
 
    /* getting the user's command line input from stdin & storing it into buffer */
