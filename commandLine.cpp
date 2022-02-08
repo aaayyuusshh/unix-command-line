@@ -89,6 +89,28 @@ int main(){
                 dollar = i;
             }    
         }
+
+        // ls $ wc wc
+        int fd[2];
+        pipe(fd);
+
+        //process everything before the "$" and add the cmds output into fd[1]
+        for(int i=0; i<dollar; i++){ 
+
+            char *args[] = {inputArr[i], NULL};
+            pid_t pid= fork();
+
+            if(pid == 0){ //child --> writes stdout(1) to the write end of the pip (fd[1])
+                close(fd[0]);
+                dup2(fd[1], 1); //put whats in stdout into fd[1]
+                close(fd[1]);
+                execvp(inputArr[i], args);
+            }
+
+            else{
+                //wait(NULL);
+            }
+        }
     }
 
    return 0;
