@@ -65,5 +65,31 @@ int main(){
 
     }
 
+    /* -- CASE 3: Special Pipes -- */
+
+    // "cmd1 cmd2 $ cmd3 cmd4"
+    else if(cases == 3){
+
+        //STRING PARSING WORK : putting input(buffer) into inputArr
+        char *token;
+        token= strtok(buffer, " ");
+        char *inputArr[20];
+        int idx=0; //also servers as the length of the array
+        while(token!= NULL){
+            inputArr[idx] = token;
+            idx++;
+            token= strtok(NULL, " ");
+        }
+
+        //printing each element of inputArr and finding index of "$"
+        int dollar;
+        for(int i=0; i< idx; i++){
+            printf("%d:%s\n",i, inputArr[i]);
+            if(strncmp(inputArr[i],"$", 1) == 0){
+                dollar = i;
+            }    
+        }
+    }
+
    return 0;
 } 
