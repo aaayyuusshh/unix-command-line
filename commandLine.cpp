@@ -96,6 +96,20 @@ int main(){
                     wait(NULL);
                 }
             }
+
+            //read from pipe fd[0] and write contents into file output.txt
+            close(fd[1]);
+            FILE *readFile = fdopen(fd[0], "r"); //open the read end of the fd
+            FILE *temp = fopen("output.txt", "w");
+            char toRead= fgetc(readFile);
+
+            while(toRead != EOF){
+                fprintf(temp, "%c", toRead);
+                toRead = fgetc(readFile);
+            }
+            fclose(readFile);
+            fclose(temp);
+
         }
     }
 

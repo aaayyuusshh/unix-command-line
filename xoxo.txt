@@ -1,4 +1,0 @@
-README.md
-c
-commandLine.cpp
-xoxo.txt
