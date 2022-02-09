@@ -97,7 +97,7 @@ int main(){
                 }
             }
 
-            //read from pipe fd[0] and write contents into file output.txt
+            //read from pipe fd[0] and write contents into file
             close(fd[1]);
             FILE *readFile = fdopen(fd[0], "r"); //open the read end of the fd
             FILE *temp = fopen("output.txt", "w");
@@ -109,6 +109,27 @@ int main(){
             }
             fclose(readFile);
             fclose(temp);
+
+            //process everything after $ and make the file from above the stdin
+            for(int i=dollar+1; i<idx; i++){
+                char *args[]= {inputArr[i], NULL};
+
+                pid_t pid = fork();
+                
+                if(pid == 0){
+                    int newstdin = open("output.txt", O_RDONLY);
+
+                    close(0); //close stdin and replace it with fd of output.txt
+                    dup(newstdin);
+                    close(newstdin);
+
+                    execvp(inputArr[i], args);
+                }
+
+                else{
+                    wait(NULL);
+                }
+            }
 
         }
     }

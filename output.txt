@@ -1,6 +1,5 @@
 README.md
 c
 commandLine.cpp
-xoxo.txt
-Wed  9 Feb 2022 02:23:00 MST
-/Users/aayushdahal/Desktop/unix-command-line
+output.txt
+Wed  9 Feb 2022 02:27:25 MST
