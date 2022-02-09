@@ -6,6 +6,17 @@
 
 using namespace std;
 
+/*TO-DO - Input error handling: check for the correct use of |,  <, and >
+
+1. check for if file.txt comes first
+
+2. cannot end with <,>, or | or $
+
+3. 
+
+
+*/
+
 int parser(char aString[]){
 
     char *pipe = strstr(aString, "|");
@@ -29,11 +40,10 @@ int main(){
 
         /* getting the user's command line input from stdin & storing it into buffer */
         char buffer [50];
-        printf("Input command line: ");
+        printf("\nInput command line: ");
         fgets(buffer, 50, stdin);
         buffer[strcspn(buffer, "\n")] = 0; //removes the \n character from buffer 
 
-        printf("Buffer: %s\n", buffer);
         printf("\n");
         //system(buffer);
 
@@ -43,9 +53,13 @@ int main(){
         /* -- CASE 2: Execute two commands connected w/ a pipe & redirection -- */
 
         if(cases == 1 || cases == 2){
-            printf("CASE 2\n");
+            //printf("CASE 1/2\n");
+            
+            int x= system(buffer);
 
-            system(buffer);
+            if (x != 0){
+                printf("[ERROR DETECTED]: re-type command below ↓\n"); 
+            }
         }
 
         /* -- CASE 3: Special Pipes -- */
@@ -67,7 +81,7 @@ int main(){
             //printing each element of inputArr and finding index of "$"
             int dollar;
             for(int i=0; i< idx; i++){
-                printf("%d:%s\n",i, inputArr[i]);
+                //printf("%d:%s\n",i, inputArr[i]);
                 if(strncmp(inputArr[i],"$", 1) == 0){
                     dollar = i;
                 }    
@@ -133,8 +147,6 @@ int main(){
 
         }
     }
-
-    
 
    return 0;
 } 
