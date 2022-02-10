@@ -1,7 +1,5 @@
 README.md
 c
 commandLine.cpp
-error.txt
 output.txt
-t
-test.cpp
+/Users/aayushdahal/Desktop/unix-command-line

@@ -6,16 +6,8 @@
 
 using namespace std;
 
-/*TO-DO - Input error handling: check for the correct use of |,  <, and >
-
-1. check for if file.txt comes first
-
-2. cannot end with <,>, or | or $
-
-3. 
-
-
-*/
+ char *inputArr[20];
+ int idx;
 
 int parser(char aString[]){
 
@@ -27,7 +19,19 @@ int parser(char aString[]){
     if(pipe || io1 || io2){ //case 2
         return 2;
     }
+
     else if(dollar){ //case 3
+
+        //STRING PARSING WORK : putting input(buffer) into inputArr
+        char *token;
+        token= strtok(aString, " ");
+        
+        idx=0; //also servers as the length of the array
+        while(token!= NULL){
+            inputArr[idx] = token;
+            idx++;
+            token= strtok(NULL, " ");
+        }
         return 3;
     }
     
@@ -66,17 +70,6 @@ int main(){
 
         // "cmd1 cmd2 $ cmd3 cmd4"
         else if(cases == 3){
-
-            //STRING PARSING WORK : putting input(buffer) into inputArr
-            char *token;
-            token= strtok(buffer, " ");
-            char *inputArr[20];
-            int idx=0; //also servers as the length of the array
-            while(token!= NULL){
-                inputArr[idx] = token;
-                idx++;
-                token= strtok(NULL, " ");
-            }
 
             //printing each element of inputArr and finding index of "$"
             int dollar;
