@@ -24,22 +24,22 @@ int parser(char aString[]){
         waitFlag = 1;
     }
 
+    //STRING PARSING WORK : putting input(buffer) into inputArr
+    char *token;
+    token= strtok(aString, " ");
+    
+    idx=0; //also servers as the length of the array
+    while(token!= NULL){
+        inputArr[idx] = token;
+        idx++;
+        token= strtok(NULL, " ");
+    }
+
     if(pipe || io1 || io2){ //case 1 & 2
         return 2;
     }
 
     else if(dollar){ //case 3
-
-        //STRING PARSING WORK : putting input(buffer) into inputArr
-        char *token;
-        token= strtok(aString, " ");
-        
-        idx=0; //also servers as the length of the array
-        while(token!= NULL){
-            inputArr[idx] = token;
-            idx++;
-            token= strtok(NULL, " ");
-        }
         return 3;
     }
     
@@ -60,16 +60,18 @@ int main(){
 
         printf("\n");
         //system(buffer);
+        char bufferCopy[50];
+        strcpy(bufferCopy, buffer);
 
         int cases= parser(buffer);
-
+        
         /* -- CASE 1: execute a single cmd line w/ upto one arg -- */
         /* -- CASE 2: Execute two commands connected w/ a pipe & redirection -- */
 
         if(cases == 1 || cases == 2){
             //printf("CASE 1/2\n");
 
-            int x= system(buffer);
+            int x= system(bufferCopy);
 
             if (x != 0){
                 printf("[ERROR DETECTED]: re-type command below ↓\n"); 
