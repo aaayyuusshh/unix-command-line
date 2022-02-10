@@ -1,5 +1,1 @@
-README.md
-c
-commandLine.cpp
-output.txt
 /Users/aayushdahal/Desktop/unix-command-line

@@ -8,6 +8,7 @@ using namespace std;
 
  char *inputArr[20];
  int idx;
+ int waitFlag;
 
 int parser(char aString[]){
 
@@ -15,8 +16,15 @@ int parser(char aString[]){
     char *io1= strstr(aString, ">");
     char *io2= strstr(aString, "<");
     char *dollar= strstr(aString, "$");
+    char *wait = strstr(aString, "&");
 
-    if(pipe || io1 || io2){ //case 2
+    waitFlag =0;
+
+    if(wait){
+        waitFlag = 1;
+    }
+
+    if(pipe || io1 || io2){ //case 1 & 2
         return 2;
     }
 
@@ -40,6 +48,8 @@ int parser(char aString[]){
 
 int main(){
 
+    printf("\n            T     R     I      A                 \n               E     M      N     L              \n") ;
+
     while(1){
 
         /* getting the user's command line input from stdin & storing it into buffer */
@@ -58,7 +68,7 @@ int main(){
 
         if(cases == 1 || cases == 2){
             //printf("CASE 1/2\n");
-            
+
             int x= system(buffer);
 
             if (x != 0){
