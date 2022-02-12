@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
+#include <regex>
 
 using namespace std;
 
@@ -18,31 +19,38 @@ int parser(char aString[]){
     char *dollar= strstr(aString, "$");
     char *wait = strstr(aString, "&");
 
+    //0 = wait, 1= dont true
     waitFlag =0;
-
-    if(wait){
+    if(wait){ //don't wait
         waitFlag = 1;
     }
+
+    printf("WAIT FLAG: %d\n" ,waitFlag);
 
     //STRING PARSING WORK : putting input(buffer) into inputArr
     char *token;
     token= strtok(aString, " ");
     
-    idx=0; //also servers as the length of the array
-    while(token!= NULL){
+    idx=0; //also serves as the length of the array
+    while(token!= NULL && strcmp(token, "&") != 0){
         inputArr[idx] = token;
         idx++;
         token= strtok(NULL, " ");
     }
+    inputArr[idx] = NULL;
 
-    if(pipe || io1 || io2){ //case 1 & 2
+    if(waitFlag == 1){
+        return 4;
+    }
+
+    else if(pipe || io1 || io2){ //case 1 & 2
         return 2;
     }
 
     else if(dollar){ //case 3
         return 3;
     }
-    
+
     return 1; //case 1
 }
 
@@ -65,10 +73,36 @@ int main(){
 
         int cases= parser(buffer);
         
-        /* -- CASE 1: execute a single cmd line w/ upto one arg -- */
+        /* -- CASE 1: Execute a single cmd line w/ upto one arg -- */
         /* -- CASE 2: Execute two commands connected w/ a pipe & redirection -- */
 
-        if(cases == 1 || cases == 2){
+        if(cases == 4){ //if there is an & in the command
+
+            string bufferCopy2= bufferCopy;
+            string toReplace= "&";
+            size_t pos;
+
+            printf("CASE 5\n");
+
+            //bufferCopy2= regex_replace(bufferCopy2, regex("&"), "");
+
+            while( (pos = bufferCopy2.find(toReplace)) != std::string::npos){
+                bufferCopy2.replace(pos, toReplace.length(), "");
+            }
+
+            pid_t pid= fork();
+
+            if(pid ==0){ //child
+                system(bufferCopy2.c_str());
+
+            }
+
+            else{ //parent
+                //if there is an instance of "&", don't wait
+            }
+        }
+
+        else if(cases== 1 || cases == 2){
             //printf("CASE 1/2\n");
 
             int x= system(bufferCopy);
@@ -149,7 +183,6 @@ int main(){
                     wait(NULL);
                 }
             }
-
         }
     }
 
