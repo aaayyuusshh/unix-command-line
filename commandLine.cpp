@@ -4,6 +4,8 @@
 #include <string.h>
 #include <fcntl.h>
 #include <regex>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 using namespace std;
 
