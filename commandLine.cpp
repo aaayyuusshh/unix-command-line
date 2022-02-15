@@ -21,13 +21,11 @@ int parser(char aString[]){
     char *dollar= strstr(aString, "$");
     char *wait = strstr(aString, "&");
 
-    //0 = wait, 1= dont true
+    //0 = wait, 1= dont 
     waitFlag =0;
     if(wait){ //don't wait
         waitFlag = 1;
     }
-
-    printf("WAIT FLAG: %d\n" ,waitFlag);
 
     //STRING PARSING WORK : putting input(buffer) into inputArr
     char *token;
@@ -84,8 +82,6 @@ int main(){
             string toReplace= "&";
             size_t pos;
 
-            printf("CASE 5\n");
-
             //bufferCopy2= regex_replace(bufferCopy2, regex("&"), "");
 
             while( (pos = bufferCopy2.find(toReplace)) != std::string::npos){
@@ -100,12 +96,16 @@ int main(){
             }
 
             else{ //parent
-                //if there is an instance of "&", don't wait
+                //if there is an instance of "&", parent won't wait for child to finish
             }
         }
 
         else if(cases== 1 || cases == 2){
             //printf("CASE 1/2\n");
+
+            if(strcmp(bufferCopy, "exit") == 0){
+                return(0);
+            }
 
             int x= system(bufferCopy);
 
@@ -152,7 +152,7 @@ int main(){
                 }
             }
 
-            //read from pipe fd[0] and write contents into file
+            //read from pipe fd[0] and write contents into file output.txt
             close(fd[1]);
             FILE *readFile = fdopen(fd[0], "r"); //open the read end of the fd
             FILE *temp = fopen("output.txt", "w");
@@ -165,7 +165,7 @@ int main(){
             fclose(readFile);
             fclose(temp);
 
-            //process everything after $ and make the file from above the stdin
+            //process everything after $ and make the file output.txt the stdin
             for(int i=dollar+1; i<idx; i++){
                 char *args[]= {inputArr[i], NULL};
 
