@@ -57,6 +57,8 @@ int parser(char aString[]){
 int main(){
 
     printf("\n            T     R     I      A                 \n               E     M      N     L              \n") ;
+    printf("\n        Type \"exit\" to exit the program\n");
+    printf("-------------------------------------------------\n");
 
     while(1){
 
@@ -73,9 +75,7 @@ int main(){
 
         int cases= parser(buffer);
         
-        /* -- CASE 1: Execute a single cmd line w/ upto one arg -- */
-        /* -- CASE 2: Execute two commands connected w/ a pipe & redirection -- */
-
+        /* -- CASE 4: If "&"" is used as a command line terminator */
         if(cases == 4){ //if there is an & in the command
 
             string bufferCopy2= bufferCopy;
@@ -100,6 +100,9 @@ int main(){
             }
         }
 
+        /* -- CASE 1: Execute a single cmd line w/ upto one arg -- */
+        /* -- CASE 2: Execute two commands connected w/ a pipe & redirection -- */
+
         else if(cases== 1 || cases == 2){
             //printf("CASE 1/2\n");
 
@@ -110,11 +113,11 @@ int main(){
             int x= system(bufferCopy);
 
             if (x != 0){
-                printf("[ERROR DETECTED]: re-type command below ↓\n"); 
+                perror("[ERROR DETECTED]: re-type command below ↓\n"); 
             }
         }
 
-        /* -- CASE 3: Special Pipes -- */
+        /* -- CASE 3: Special Pipe "$" -- */
 
         // "cmd1 cmd2 $ cmd3 cmd4"
         else if(cases == 3){
@@ -145,6 +148,10 @@ int main(){
                     dup2(fd[1],1);
                     close(fd[1]);
                     execvp(inputArr[i], args); 
+
+                    perror("execvp() call failed!");
+                    return 0;
+
                 }
 
                 else{
@@ -179,6 +186,9 @@ int main(){
                     close(newstdin);
 
                     execvp(inputArr[i], args);
+
+                    //error statement
+                    printf("execvp() call failed for %s", inputArr[i]); 
                 }
 
                 else{
