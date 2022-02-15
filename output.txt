@@ -1,6 +1,5 @@
 README.md
 c
 commandLine.cpp
+makefile
 output.txt
-t
-test.cpp
