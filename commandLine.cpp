@@ -13,6 +13,10 @@ using namespace std;
  int idx;
  int waitFlag;
 
+/**
+ * returns an int based on what case the command line covers.
+ * parses the user input with delimeter " " and stores it into array inputArr.
+**/
 int parser(char aString[]){
 
     char *pipe = strstr(aString, "|");
@@ -75,35 +79,10 @@ int main(){
 
         int cases= parser(buffer);
         
-        /* -- CASE 4: If "&"" is used as a command line terminator */
-        if(cases == 4){ //if there is an & in the command
-
-            string bufferCopy2= bufferCopy;
-            string toReplace= "&";
-            size_t pos;
-
-            //bufferCopy2= regex_replace(bufferCopy2, regex("&"), "");
-
-            while( (pos = bufferCopy2.find(toReplace)) != std::string::npos){
-                bufferCopy2.replace(pos, toReplace.length(), "");
-            }
-
-            pid_t pid= fork();
-
-            if(pid ==0){ //child
-                system(bufferCopy2.c_str());
-
-            }
-
-            else{ //parent
-                //if there is an instance of "&", parent won't wait for child to finish
-            }
-        }
-
         /* -- CASE 1: Execute a single cmd line w/ upto one arg -- */
         /* -- CASE 2: Execute two commands connected w/ a pipe & redirection -- */
 
-        else if(cases== 1 || cases == 2){
+        if(cases== 1 || cases == 2){
             //printf("CASE 1/2\n");
 
             if(strcmp(bufferCopy, "exit") == 0){
@@ -194,6 +173,33 @@ int main(){
                 else{
                     wait(NULL);
                 }
+            }
+        }
+
+         /* -- CASE 4: If "&"" is used as a command line terminator */
+        
+        else if(cases == 4){ //if there is an & in the command
+
+            string bufferCopy2= bufferCopy;
+            string toReplace= "&";
+            size_t pos;
+
+            //bufferCopy2= regex_replace(bufferCopy2, regex("&"), "");
+
+            while( (pos = bufferCopy2.find(toReplace)) != std::string::npos){
+                bufferCopy2.replace(pos, toReplace.length(), "");
+            }
+
+            pid_t pid= fork();
+
+            if(pid ==0){ //child
+                system(bufferCopy2.c_str());
+                return(0);    //bc unlike execvp(), system() doesn't actually terminate operation!
+
+            }
+
+            else{ //parent
+                //if there is an instance of "&", parent won't wait for child to finish
             }
         }
     }
