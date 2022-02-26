@@ -16,7 +16,7 @@
 
 ![unix](https://user-images.githubusercontent.com/80851741/155860856-cda9074b-6be1-492b-bf86-bf11da247039.png)  
 
-**Sample Run 1: Advanced Commands + I/O Redirection** 
+**Sample Run 2: Advanced Commands + I/O Redirection** 
 
 ![unix2](https://user-images.githubusercontent.com/80851741/155860941-e0855ebf-eb2b-4705-ac48-76bbd69125f4.png)
 
