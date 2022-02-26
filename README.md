@@ -19,3 +19,10 @@
 **Sample Run 1: Advanced Commands + I/O Redirection** 
 
 ![unix2](https://user-images.githubusercontent.com/80851741/155860941-e0855ebf-eb2b-4705-ac48-76bbd69125f4.png)
+
+**What I Learnt**
+  - C++ programming concepts.
+  - File I/O.
+  - System calls.
+  - Multiprocessing with fork().
+  - How processes & forking works.
